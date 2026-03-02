@@ -457,6 +457,15 @@
                 <p><span class="highlight" data-type="keyword" onclick="startConfetti(30)">but if you're just a normal person — i wanna friend u</span></p>
             </div>
 
+            <div class="section">
+                <h2><span class="arrow">▶</span> now playing</h2>
+                <div id="spotify-widget" style="min-height: 60px;">
+                    <div id="spotify-track" class="highlight" data-type="comment" style="margin-bottom: 2px;">⏳ loading...</div>
+                    <div id="spotify-artist" class="highlight" data-type="comment" style="font-size: 0.9rem;"></div>
+                    <div id="spotify-progress" style="font-size: 0.8rem; color: #6f8a9f; margin-top: 4px;"></div>
+                </div>
+            </div>
+
             <div class="note">
                 <p>⚠️ <span class="highlight" data-type="comment">This site uses no trackers, no cookies.</span></p>
                 <p>
@@ -477,63 +486,49 @@
         </div>
     </div>
 
-    <div class="section">
-    <h2><span class="arrow">▶</span> now playing</h2>
-    <div id="spotify-widget" style="min-height: 60px;">
-        <div id="spotify-track" class="highlight" data-type="comment" style="margin-bottom: 2px;">⏳ loading...</div>
-        <div id="spotify-artist" class="highlight" data-type="comment" style="font-size: 0.9rem;"></div>
-        <div id="spotify-progress" style="font-size: 0.8rem; color: #6f8a9f; margin-top: 4px;"></div>
-    </div>
-</div>
-
-<script>
-    const SPOTIFY_API_URL = 'https://nowplaying-api.tinyrobot.co/playbackstate?key=be25122d-5582-4adb-8d8a-d5eee4de1041';
-
-    async function fetchSpotify() {
-        try {
-            const response = await fetch(SPOTIFY_API_URL);
-            const data = await response.json();
-            
-            if (data.isPlaying && data.item) {
-                
-                const trackName = data.item.name;
-                const artists = data.item.artists.map(a => a.name).join(', ');
-                const progress = formatProgress(data.progressMs, data.item.durationMs);
-                
-                document.getElementById('spotify-track').innerHTML = `🎵 <span class="string">${trackName}</span>`;
-                document.getElementById('spotify-artist').innerHTML = `<span class="keyword">${artists}</span> <span class="comment" style="font-size:0.8rem;">(now)</span>`;
-                document.getElementById('spotify-progress').innerHTML = progress;
-            } else {
-                // Если ничего не играет
-                document.getElementById('spotify-track').innerHTML = '🎵 nothing playing';
-                document.getElementById('spotify-artist').innerHTML = '';
-                document.getElementById('spotify-progress').innerHTML = '';
-            }
-        } catch (error) {
-            document.getElementById('spotify-track').innerHTML = '🎵 error loading';
-        }
-    }
-
-    function formatProgress(progressMs, durationMs) {
-        if (!progressMs || !durationMs) return '';
-        
-        const progressSec = Math.floor(progressMs / 1000);
-        const durationSec = Math.floor(durationMs / 1000);
-        
-        const pMin = Math.floor(progressSec / 60);
-        const pSec = progressSec % 60;
-        const dMin = Math.floor(durationSec / 60);
-        const dSec = durationSec % 60;
-        
-        return `⏱️ ${pMin}:${pSec.toString().padStart(2, '0')} / ${dMin}:${dSec.toString().padStart(2, '0')}`;
-    }
-
-    
-    fetchSpotify();
-    setInterval(fetchSpotify, 3000);
-</script>
-    
     <script>
+        const SPOTIFY_API_URL = 'https://nowplaying-api.tinyrobot.co/playbackstate?key=be25122d-5582-4adb-8d8a-d5eee4de1041';
+
+        async function fetchSpotify() {
+            try {
+                const response = await fetch(SPOTIFY_API_URL);
+                const data = await response.json();
+                
+                if (data.isPlaying && data.item) {
+                    const trackName = data.item.name;
+                    const artists = data.item.artists.map(a => a.name).join(', ');
+                    const progress = formatProgress(data.progressMs, data.item.durationMs);
+                    
+                    document.getElementById('spotify-track').innerHTML = `🎵 <span class="string">${trackName}</span>`;
+                    document.getElementById('spotify-artist').innerHTML = `<span class="keyword">${artists}</span> <span class="comment" style="font-size:0.8rem;">(now)</span>`;
+                    document.getElementById('spotify-progress').innerHTML = progress;
+                } else {
+                    document.getElementById('spotify-track').innerHTML = '🎵 nothing playing';
+                    document.getElementById('spotify-artist').innerHTML = '';
+                    document.getElementById('spotify-progress').innerHTML = '';
+                }
+            } catch (error) {
+                document.getElementById('spotify-track').innerHTML = '🎵 error loading';
+            }
+        }
+
+        function formatProgress(progressMs, durationMs) {
+            if (!progressMs || !durationMs) return '';
+            
+            const progressSec = Math.floor(progressMs / 1000);
+            const durationSec = Math.floor(durationMs / 1000);
+            
+            const pMin = Math.floor(progressSec / 60);
+            const pSec = progressSec % 60;
+            const dMin = Math.floor(durationSec / 60);
+            const dSec = durationSec % 60;
+            
+            return `⏱️ ${pMin}:${pSec.toString().padStart(2, '0')} / ${dMin}:${dSec.toString().padStart(2, '0')}`;
+        }
+
+        fetchSpotify();
+        setInterval(fetchSpotify, 3000);
+
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -752,4 +747,3 @@
     </script>
 </body>
 </html>
-
