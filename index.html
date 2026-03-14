@@ -263,6 +263,24 @@
             color: #ffb86b;
             border-radius: 4px;
         }
+		
+		.highlightfilow {
+			font-weight: bold;
+			padding: 2px 5px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			display: inline-block;
+			margin: 2px 0;
+			background: rgba(102, 0, 255, 1);
+			color: #ffffff;
+			border-radius: 4px;
+		}
+
+		.highlightfilow:hover {
+			background: rgba(102, 0, 255, 1);
+			box-shadow: 0 0 10px rgba(102, 0, 255, 1);
+			transform: translateY(-1px);
+		}
 
         .highlight:hover {
             background: rgba(255, 184, 107, 0.3);
@@ -436,7 +454,7 @@
 
             <div class="section">
                 <h2><span class="arrow">▶</span> [current projects]</h2>
-                <p><span class="highlight" data-type="keyword" >None</span> <span class="highlight" data-type="comment"></span></p>
+				<p><span class="highlightfilow" data-type="keyword" onclick="window.open('https://guns.lol/tuxset')" >guns.lol</span> <span class="highlight" data-type="comment"></span></p>
             </div>
 
             <div class="section">
@@ -471,7 +489,7 @@
                 <p>
                     <a onclick="window.open('https://github.com/tuxset', '_blank'); startConfetti(20)">github/tuxset</a>
                     <a onclick="window.open('mailto:tux@xyecoc.com'); startConfetti(10)">tux@xyecoc.com</a>
-                    <a onclick="alertmessage">don't click</a>
+                    <a onclick="alertmessage('allert')">don't click</a>
 					<a id="funfact-link" onclick="return false">Fun fact: </a>
                 </p> 
                 <p style="margin-top:8px;">tuxset © 2026</p>
