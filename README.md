@@ -1,4 +1,4 @@
-# frzvoxel.github.io
+# knaic.github.io
 Reverse engineering, стеклянный UI в синей гамме, анимированный фон, интеграция с GitHub.
 
 Демо • MIT
